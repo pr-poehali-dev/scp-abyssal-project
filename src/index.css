@@ -113,8 +113,8 @@
   }
 
   @keyframes float-up {
-    0% {
-      bottom: -10%;
+    from {
+      transform: translateY(0);
       opacity: 0;
     }
     10% {
@@ -123,14 +123,14 @@
     90% {
       opacity: 0.4;
     }
-    100% {
-      bottom: 110%;
+    to {
+      transform: translateY(-120vh);
       opacity: 0;
     }
   }
 
   .bubble {
-    position: absolute;
+    position: fixed;
     border-radius: 50%;
     background: radial-gradient(
       circle at 30% 30%,
@@ -139,7 +139,17 @@
     );
     box-shadow: 0 0 15px rgba(29, 185, 84, 0.2);
     pointer-events: none;
-    will-change: bottom;
+    will-change: transform;
+  }
+
+  .info-bar {
+    transition: all 0.3s ease;
+  }
+
+  .info-bar:hover {
+    background: rgba(29, 185, 84, 0.1);
+    border-color: hsl(var(--primary));
+    transform: translateX(10px);
   }
 
   @keyframes scroll-left {

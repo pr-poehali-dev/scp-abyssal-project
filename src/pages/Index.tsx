@@ -36,48 +36,42 @@ const Index = () => {
     {
       icon: 'Waves',
       title: 'Глубоководная локация',
-      description: 'Уникальная подводная база на дне океана с реалистичной физикой и атмосферой',
+      description: 'Уникальная подводная зона на дне океана с пугающей и глубоководной атмосферой',
     },
     {
       icon: 'Users',
       title: 'Ролевая игра',
-      description: 'Развитая система ролей: исследователи, охрана, научный персонал, D-класс',
+      description: 'Развитая система ролей: исследователи, охрана, научный персонал, D-класс и другие роли',
     },
     {
       icon: 'Zap',
       title: 'Динамические события',
-      description: 'Прорывы контейнмента, аварийные ситуации, исследовательские миссии',
+      description: 'Прорыв SCP объектов, аварийные ситуации на станции, исследовательские миссии на дне океана',
     },
     {
-      icon: 'Radio',
-      title: 'Коммуникации',
-      description: 'Система внутренней связи, терминалы доступа, голосовой чат',
-    },
-    {
-      icon: 'Shield',
-      title: 'Система безопасности',
-      description: 'Уровни допуска, биометрия, протоколы чрезвычайных ситуаций',
+      icon: 'Mic',
+      title: 'Собственная озвучка',
+      description: 'Профессиональная озвучка персонажей и событий создаёт полное погружение в атмосферу станции',
     },
     {
       icon: 'Lock',
       title: 'Аномалии',
-      description: 'Уникальные объекты и существа, требующие особых протоколов содержания',
+      description: 'Уникальные подводные объекты и существа, требующие особых протоколов содержания',
     },
   ];
 
   const team = [
-    { name: 'Alucard', role: 'Директор сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Biazox', role: 'Со-директор сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Raptor', role: 'Со-директор сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Punisher', role: 'Координатор', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Jason', role: 'Менеджер сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'mxd', role: 'Технический директор', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Toheyyy', role: 'Технический отдел', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Nhilis', role: 'Руководитель проекта', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Baltica', role: 'Владелец сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Atu', role: 'Владелец сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'CEO', role: 'Ведущий разработчик систем', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Snake', role: 'Ведущий разработчик карты', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Golup', role: '3D artist', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'NoName', role: 'Разработчик Discord бота', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
   ];
 
   const bubbles = [...Array(40)].map((_, i) => ({
     left: Math.random() * 100,
+    bottom: Math.random() * 100,
     size: 5 + Math.random() * 15,
     duration: 20 + Math.random() * 30,
     delay: Math.random() * 20,
@@ -97,13 +91,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden" style={{ backgroundColor: `rgb(${waterColor.r}, ${waterColor.g}, ${waterColor.b})` }}>
-      <div className="absolute inset-0 pointer-events-none z-0">
+      <div className="fixed inset-0 pointer-events-none z-0">
         {bubbles.map((bubble, i) => (
           <div
             key={i}
             className="bubble"
             style={{
               left: `${bubble.left}%`,
+              bottom: `${bubble.bottom}%`,
               width: `${bubble.size}px`,
               height: `${bubble.size}px`,
               animation: `float-up ${bubble.duration}s linear infinite`,
@@ -113,7 +108,7 @@ const Index = () => {
         ))}
       </div>
 
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-20">
         {lightRays.map((ray, i) => (
           <div
             key={i}
@@ -129,7 +124,7 @@ const Index = () => {
       <div className="decorative-lines" style={{ top: '20%', left: '10%' }}></div>
       <div className="decorative-lines" style={{ top: '60%', right: '10%' }}></div>
 
-      <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
+      <div className="fixed inset-0 pointer-events-none opacity-20 z-0">
         <div className="absolute inset-0 bg-gradient-radial from-primary/30 via-transparent to-transparent"></div>
       </div>
 
@@ -144,7 +139,7 @@ const Index = () => {
               О проекте
             </a>
             <a href="#features" className={`nav-link hover:text-primary transition-colors tracking-wide ${activeSection === 'features' ? 'active' : ''}`}>
-              Информация
+              Особенности
             </a>
             <a href="#team" className={`nav-link hover:text-primary transition-colors tracking-wide ${activeSection === 'team' ? 'active' : ''}`}>
               Команда
@@ -171,14 +166,16 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-[#051510]/50 via-transparent to-transparent"></div>
 
           <div className="container mx-auto px-4 text-center relative z-10">
-            <div className="mb-8 animate-fade-in flex flex-col items-center gap-8" style={{ animationDelay: '0.2s' }}>
-              <img src="https://cdn.poehali.dev/files/4468007d-3ca2-4d75-af22-bd7b04f04385.png" alt="Abyssal Logo" className="w-48 h-48 md:w-64 md:h-64 opacity-90" />
-              <div className="text-6xl md:text-9xl font-black tracking-wider text-primary">
-                ABYSSAL
-              </div>
+            <div className="mb-12 animate-fade-in flex items-center justify-center gap-8" style={{ animationDelay: '0.2s' }}>
+              <img 
+                src="https://cdn.poehali.dev/files/fe990dfb-c590-4ee5-b575-5f5888df05bb.png" 
+                alt="Abyssal SCP RP" 
+                className="w-full max-w-2xl h-auto opacity-90"
+              />
             </div>
-            <p className="text-lg md:text-xl mb-12 tracking-widest opacity-80 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              Глубоководный исследовательский комплекс
+            <p className="text-lg md:text-2xl mb-12 tracking-wide opacity-90 animate-fade-in max-w-4xl mx-auto" style={{ animationDelay: '0.4s' }}>
+              Abyssal — это уникальный SCP RP проект разработанный на базе игры Garry's Mod,<br />
+              который предлагает своим игрокам погрузиться в мир океанской бездны
             </p>
             <div className="flex justify-center items-center gap-2 animate-bounce" style={{ animationDelay: '1s' }}>
               <Icon name="ChevronDown" size={20} />
@@ -192,35 +189,34 @@ const Index = () => {
             <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="space-y-8">
                 <div className="animate-fade-in">
-                  <div className="text-sm tracking-widest opacity-50 mb-2">О ПРОЕКТЕ</div>
                   <h3 className="text-4xl font-bold tracking-wide">О ПРОЕКТЕ</h3>
                 </div>
 
                 <div className="space-y-6">
-                  <div className="border-l-2 border-primary pl-4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                  <div className="info-bar border-l-2 border-primary pl-4 py-4 animate-fade-in cursor-pointer" style={{ animationDelay: '0.2s' }}>
                     <div className="text-sm tracking-wider mb-2 text-primary">01</div>
-                    <h4 className="text-xl font-bold mb-2">Глубоководная станция</h4>
+                    <h4 className="text-xl font-bold mb-2">Abyssal SCP RP</h4>
                     <p className="text-sm leading-relaxed opacity-80">
-                      Abyssal — это уникальная подводная исследовательская станция, расположенная на глубине 8000 метров.
-                      Здесь изучаются самые опасные морские аномалии под огромным давлением океанской бездны.
+                      Abyssal — это уникальный SCP RP проект разработанный на базе игры Garry's Mod, 
+                      который предлагает своим игрокам погрузиться в мир океанской бездны.
                     </p>
                   </div>
 
-                  <div className="border-l-2 border-white/20 pl-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                  <div className="info-bar border-l-2 border-white/20 pl-4 py-4 animate-fade-in cursor-pointer" style={{ animationDelay: '0.4s' }}>
                     <div className="text-sm tracking-wider mb-2 text-muted-foreground">02</div>
                     <h4 className="text-xl font-bold mb-2">Ролевой проект</h4>
                     <p className="text-sm leading-relaxed opacity-80">
-                      Станьте частью команды станции Abyssal. Исследуйте аномальные объекты,
-                      поддерживайте протоколы безопасности, взаимодействуйте с другими игроками
-                      в атмосфере постоянной угрозы.
+                      Станьте частью команды станции 119, расположенной на глубине 3800 метров. 
+                      Исследуйте аномальные объекты, поддерживайте протоколы безопасности, 
+                      взаимодействуйте с другими игроками под огромным давлением океанской бездны.
                     </p>
                   </div>
 
-                  <div className="border-l-2 border-white/20 pl-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                  <div className="info-bar border-l-2 border-white/20 pl-4 py-4 animate-fade-in cursor-pointer" style={{ animationDelay: '0.6s' }}>
                     <div className="text-sm tracking-wider mb-2 text-muted-foreground">03</div>
                     <h4 className="text-xl font-bold mb-2">Выживание</h4>
                     <p className="text-sm leading-relaxed opacity-80">
-                      Каждое решение может стоить жизни экипажу. Прорывы контейнмента,
+                      Каждое решение может стоить жизни экипажу. Прорывы SCP объектов, 
                       технические аварии, угрозы из глубин — готовы ли вы погрузиться в бездну?
                     </p>
                   </div>
@@ -243,36 +239,18 @@ const Index = () => {
         <section id="features" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="mb-16 animate-fade-in">
-              <div className="text-sm tracking-widest opacity-50 mb-2">ОТКРОЙТЕ ДЛЯ СЕБЯ</div>
-              <h3 className="text-5xl font-bold tracking-wide mb-6">ВОЗМОЖНОСТИ</h3>
+              <h3 className="text-5xl font-bold tracking-wide mb-6">ОСОБЕННОСТИ</h3>
               <p className="text-sm leading-relaxed opacity-80 max-w-2xl">
-                Возможности этой игры безграничны! От строительства собственных баз до участия в
-                различных игровых режимах и сценариях выживания в глубинах океана.
+                Наш сервер предлагает уникальный контент для своих игроков, включающий:
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              {features.slice(0, 2).map((feature, index) => (
-                <div key={index} className="corner-bracket p-8 bg-[#0a1f18]/50 hover:bg-[#0a1f18]/80 transition-all grid-bg animate-fade-in" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 border border-primary flex items-center justify-center flex-shrink-0">
-                      <Icon name={feature.icon} className="text-primary" size={24} />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold mb-2 tracking-wide">{feature.title}</h4>
-                      <p className="text-sm opacity-80 leading-relaxed">{feature.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {features.slice(2).map((feature, index) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {features.map((feature, index) => (
                 <Card
                   key={index}
                   className="p-6 bg-[#0a1f18]/50 border-white/10 hover:border-primary transition-all grid-bg animate-fade-in"
-                  style={{ animationDelay: `${0.4 + index * 0.1}s` }}
+                  style={{ animationDelay: `${0.2 + index * 0.1}s` }}
                 >
                   <div className="w-10 h-10 border border-primary flex items-center justify-center mb-4">
                     <Icon name={feature.icon} className="text-primary" size={20} />
@@ -309,15 +287,14 @@ const Index = () => {
         <section id="team" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="mb-16 text-center animate-fade-in">
-              <div className="text-sm tracking-widest opacity-50 mb-2">НАША КОМАНДА</div>
               <h3 className="text-5xl font-bold tracking-wide mb-4">НАША КОМАНДА</h3>
               <div className="w-16 h-1 bg-primary mx-auto mb-4"></div>
               <p className="text-sm opacity-70 max-w-3xl mx-auto">
-                Познакомьтесь с увлечёнными людьми, которые неустанно работают над созданием и поддержкой уникального игрового опыта
+                Познакомьтесь с энтузиастами, которые постоянно работают над созданием и поддержкой уникального игрового опыта
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {team.map((member, index) => (
                 <div
                   key={index}
@@ -330,7 +307,7 @@ const Index = () => {
                     </div>
                     <div className="flex-1">
                       <h4 className="text-lg font-bold tracking-wide">{member.name}</h4>
-                      <p className="text-xs tracking-wider opacity-60 uppercase">{member.role}</p>
+                      <p className="text-xs tracking-wider opacity-60">{member.role}</p>
                     </div>
                   </div>
                 </div>
@@ -342,30 +319,53 @@ const Index = () => {
         <section id="info" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="mb-16 animate-fade-in">
-              <div className="text-sm tracking-widest opacity-50 mb-2">ИНФОРМАЦИЯ</div>
               <h3 className="text-5xl font-bold tracking-wide">ИНФОРМАЦИЯ</h3>
             </div>
 
             <div className="space-y-4 max-w-4xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <div className="border border-white/10 hover:border-primary transition-all">
-                <button className="w-full p-6 flex items-center justify-between text-left">
-                  <span className="text-xl tracking-wide">Discord сервер</span>
-                  <Icon name="Plus" size={24} />
-                </button>
-              </div>
+              <a 
+                href="https://discord.gg/z9P7mMHbQv" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="border border-white/10 hover:border-primary transition-all block"
+              >
+                <div className="w-full p-6 flex items-center justify-between">
+                  <span className="text-xl tracking-wide">Discord Server</span>
+                  <Icon name="ExternalLink" size={24} />
+                </div>
+              </a>
 
               <div className="border border-white/10 hover:border-primary transition-all">
                 <button className="w-full p-6 flex items-center justify-between text-left">
                   <span className="text-xl tracking-wide">Правила сервера</span>
-                  <Icon name="Plus" size={24} />
+                  <Icon name="FileText" size={24} />
                 </button>
               </div>
 
-              <div className="border border-white/10 hover:border-primary transition-all">
-                <button className="w-full p-6 flex items-center justify-between text-left">
-                  <span className="text-xl tracking-wide">Контент-криэйторы</span>
-                  <Icon name="Plus" size={24} />
-                </button>
+              <div className="border border-white/10 p-6">
+                <h4 className="text-xl tracking-wide mb-4">Полезные ссылки</h4>
+                <div className="space-y-3">
+                  <a 
+                    href="https://steamcommunity.com/sharedfiles/filedetails/?id=3361006309" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 opacity-80 hover:opacity-100 hover:text-primary transition-all"
+                  >
+                    <Icon name="Download" size={20} />
+                    <span>Steam Workshop коллекция</span>
+                    <Icon name="ExternalLink" size={16} className="ml-auto" />
+                  </a>
+                  <a 
+                    href="https://www.youtube.com/@newmzmeyleveldesign" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 opacity-80 hover:opacity-100 hover:text-primary transition-all"
+                  >
+                    <Icon name="Youtube" size={20} />
+                    <span>YouTube канал</span>
+                    <Icon name="ExternalLink" size={16} className="ml-auto" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -376,17 +376,14 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex gap-4">
-              <a href="#" className="hover:text-primary transition-colors">
+              <a href="https://discord.gg/z9P7mMHbQv" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" title="Discord">
                 <Icon name="MessageCircle" size={20} />
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Icon name="Twitter" size={20} />
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              <a href="https://www.youtube.com/@newmzmeyleveldesign" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" title="YouTube">
                 <Icon name="Youtube" size={20} />
               </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                <Icon name="Globe" size={20} />
+              <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3361006309" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors" title="Steam Collection">
+                <Icon name="Download" size={20} />
               </a>
             </div>
             <p className="text-sm opacity-50 tracking-wide">
