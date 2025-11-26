@@ -58,6 +58,11 @@ const Index = () => {
       title: 'Аномалии',
       description: 'Уникальные подводные объекты и существа, требующие особых протоколов содержания',
     },
+    {
+      icon: 'Settings',
+      title: 'Уникальные системы',
+      description: 'Затопление комплекса, система миссий, система рейдов',
+    },
   ];
 
   const team = [
@@ -71,30 +76,28 @@ const Index = () => {
 
 
 
-  const lightRays = [...Array(8)].map((_, i) => ({
-    left: (100 / 8) * i + Math.random() * 10,
-    delay: Math.random() * 8,
+  const bubbles = [...Array(20)].map((_, i) => ({
+    left: Math.random() * 100,
+    size: Math.random() * 8 + 4,
+    duration: Math.random() * 10 + 20,
+    delay: Math.random() * 30,
   }));
 
-  const depthProgress = Math.min(scrollY / 3000, 1);
-  const waterColor = {
-    r: Math.floor(5 + (0 - 5) * depthProgress),
-    g: Math.floor(21 + (5 - 21) * depthProgress),
-    b: Math.floor(16 + (10 - 16) * depthProgress),
-  };
-
   return (
-    <div className="min-h-screen text-white relative overflow-hidden" style={{ backgroundColor: `rgb(${waterColor.r}, ${waterColor.g}, ${waterColor.b})` }}>
+    <div className="min-h-screen text-white relative overflow-hidden bg-[#051510]">
 
 
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-20">
-        {lightRays.map((ray, i) => (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {bubbles.map((bubble, i) => (
           <div
             key={i}
-            className="light-ray"
+            className="bubble"
             style={{
-              left: `${ray.left}%`,
-              animationDelay: `${ray.delay}s`,
+              left: `${bubble.left}%`,
+              width: `${bubble.size}px`,
+              height: `${bubble.size}px`,
+              animationDuration: `${bubble.duration}s`,
+              animationDelay: `-${bubble.delay}s`,
             }}
           />
         ))}
@@ -146,9 +149,6 @@ const Index = () => {
       <main className="relative z-10">
         <section
           className="min-h-screen flex items-center justify-center relative pt-20"
-          style={{
-            transform: `translateY(${scrollY * 0.3}px)`,
-          }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-[#051510]/50 via-transparent to-transparent"></div>
 
