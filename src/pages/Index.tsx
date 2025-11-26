@@ -76,50 +76,11 @@ const Index = () => {
 
 
 
-  const bubbles = [...Array(20)].map((_, i) => ({
-    left: Math.random() * 100,
-    size: Math.random() * 8 + 4,
-    duration: Math.random() * 10 + 20,
-    delay: Math.random() * 30,
-  }));
+
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden bg-[#051510]">
 
-
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {bubbles.map((bubble, i) => (
-          <div
-            key={i}
-            className="bubble"
-            style={{
-              left: `${bubble.left}%`,
-              width: `${bubble.size}px`,
-              height: `${bubble.size}px`,
-              animationDuration: `${bubble.duration}s`,
-              animationDelay: `-${bubble.delay}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="bg-lines">
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="diagonal-line"
-            style={{
-              left: `${(100 / 12) * i}%`,
-              transform: `rotate(${-20 + Math.random() * 10}deg)`,
-              opacity: 0.3 + Math.random() * 0.3,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="fixed inset-0 pointer-events-none opacity-20 z-0">
-        <div className="absolute inset-0 bg-gradient-radial from-primary/30 via-transparent to-transparent"></div>
-      </div>
 
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#051510]/90 backdrop-blur-sm border-b border-primary/20">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
