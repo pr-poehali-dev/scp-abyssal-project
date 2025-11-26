@@ -4,13 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
 const Index = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-      
       const sections = ['about', 'features', 'team', 'info'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
@@ -78,40 +75,8 @@ const Index = () => {
 
 
 
-  const bubbles = [...Array(30)].map((_, i) => ({
-    left: Math.random() * 100,
-    size: Math.random() * 15 + 8,
-    duration: Math.random() * 15 + 25,
-    delay: Math.random() * 40,
-  }));
-
-  const depthProgress = Math.min(scrollY / 2500, 1);
-  const bgOpacity = 0.05 + depthProgress * 0.15;
-
   return (
     <div className="min-h-screen text-white relative overflow-hidden bg-[#051510]">
-      <div className="fixed inset-0 grid-bg pointer-events-none z-0" style={{ opacity: bgOpacity }}></div>
-      
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {bubbles.map((bubble, i) => (
-          <div
-            key={i}
-            className="bubble"
-            style={{
-              left: `${bubble.left}%`,
-              width: `${bubble.size}px`,
-              height: `${bubble.size}px`,
-              animationDuration: `${bubble.duration}s`,
-              animationDelay: `-${bubble.delay}s`,
-            }}
-          />
-        ))}
-      </div>
-      
-      <div 
-        className="fixed inset-0 bg-black pointer-events-none z-0"
-        style={{ opacity: depthProgress * 0.4 }}
-      ></div>
 
 
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#051510]/90 backdrop-blur-sm border-b border-primary/20">
