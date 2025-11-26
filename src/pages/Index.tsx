@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -6,8 +6,6 @@ import { Card } from '@/components/ui/card';
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState('');
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const bubblesRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,37 +24,11 @@ const Index = () => {
       setActiveSection(current || '');
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      
-      bubblesRef.current.forEach((bubble) => {
-        if (!bubble) return;
-        const rect = bubble.getBoundingClientRect();
-        const bubbleX = rect.left + rect.width / 2;
-        const bubbleY = rect.top + rect.height / 2;
-        
-        const deltaX = e.clientX - bubbleX;
-        const deltaY = e.clientY - bubbleY;
-        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        
-        if (distance < 150) {
-          const force = (150 - distance) / 150;
-          const moveX = -deltaX * force * 0.5;
-          const moveY = -deltaY * force * 0.5;
-          bubble.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        } else {
-          bubble.style.transform = 'translate(0, 0)';
-        }
-      });
-    };
-
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
     handleScroll();
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -106,25 +78,32 @@ const Index = () => {
 
   const bubbles = [...Array(40)].map((_, i) => ({
     left: Math.random() * 100,
-    bottom: Math.random() * 100,
     size: 5 + Math.random() * 15,
     duration: 20 + Math.random() * 30,
     delay: Math.random() * 20,
   }));
 
+  const lightRays = [...Array(8)].map((_, i) => ({
+    left: (100 / 8) * i + Math.random() * 10,
+    delay: Math.random() * 8,
+  }));
+
+  const depthProgress = Math.min(scrollY / 3000, 1);
+  const waterColor = {
+    r: Math.floor(5 + (0 - 5) * depthProgress),
+    g: Math.floor(21 + (5 - 21) * depthProgress),
+    b: Math.floor(16 + (10 - 16) * depthProgress),
+  };
+
   return (
-    <div className="min-h-screen bg-[#051510] text-white relative overflow-hidden">
-      <div className="fixed inset-0 pointer-events-none z-0">
+    <div className="min-h-screen text-white relative overflow-hidden" style={{ backgroundColor: `rgb(${waterColor.r}, ${waterColor.g}, ${waterColor.b})` }}>
+      <div className="absolute inset-0 pointer-events-none z-0">
         {bubbles.map((bubble, i) => (
           <div
             key={i}
-            ref={(el) => {
-              if (el) bubblesRef.current[i] = el;
-            }}
             className="bubble"
             style={{
               left: `${bubble.left}%`,
-              bottom: `${bubble.bottom}%`,
               width: `${bubble.size}px`,
               height: `${bubble.size}px`,
               animation: `float-up ${bubble.duration}s linear infinite`,
@@ -134,11 +113,24 @@ const Index = () => {
         ))}
       </div>
 
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
+        {lightRays.map((ray, i) => (
+          <div
+            key={i}
+            className="light-ray"
+            style={{
+              left: `${ray.left}%`,
+              animationDelay: `${ray.delay}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className="decorative-lines" style={{ top: '20%', left: '10%' }}></div>
       <div className="decorative-lines" style={{ top: '60%', right: '10%' }}></div>
 
-      <div className="fixed inset-0 pointer-events-none opacity-30 z-0">
-        <div className="absolute inset-0 bg-gradient-radial from-[#1DB954]/20 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
+        <div className="absolute inset-0 bg-gradient-radial from-primary/30 via-transparent to-transparent"></div>
       </div>
 
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#051510]/90 backdrop-blur-sm border-b border-primary/20">
@@ -176,11 +168,11 @@ const Index = () => {
             transform: `translateY(${scrollY * 0.3}px)`,
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-[#051510] via-transparent to-[#051510]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#051510]/50 via-transparent to-transparent"></div>
 
           <div className="container mx-auto px-4 text-center relative z-10">
-            <div className="mb-8 animate-fade-in flex flex-col items-center gap-6" style={{ animationDelay: '0.2s' }}>
-              <img src="https://cdn.poehali.dev/files/4468007d-3ca2-4d75-af22-bd7b04f04385.png" alt="Abyssal Logo" className="w-32 h-32 opacity-90" />
+            <div className="mb-8 animate-fade-in flex flex-col items-center gap-8" style={{ animationDelay: '0.2s' }}>
+              <img src="https://cdn.poehali.dev/files/4468007d-3ca2-4d75-af22-bd7b04f04385.png" alt="Abyssal Logo" className="w-48 h-48 md:w-64 md:h-64 opacity-90" />
               <div className="text-6xl md:text-9xl font-black tracking-wider text-primary">
                 ABYSSAL
               </div>
@@ -295,17 +287,22 @@ const Index = () => {
 
         <section className="py-16 relative bg-gradient-to-r from-[#0a1f18] via-primary/10 to-[#0a1f18] border-y border-primary/30 overflow-hidden">
           <div className="absolute inset-0 grid-bg opacity-50"></div>
-          <div className="container mx-auto px-4 flex items-center justify-between gap-8 relative z-10">
-            <div className="scroll-text whitespace-nowrap text-4xl md:text-6xl font-bold tracking-wider flex-shrink-0">
-              ОТКРЫТИЕ 1 ДЕКАБРЯ • ОТКРЫТИЕ 1 ДЕКАБРЯ • ОТКРЫТИЕ 1 ДЕКАБРЯ •
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="scroll-text whitespace-nowrap text-4xl md:text-6xl font-bold tracking-wider">
+              ОТКРЫТИЕ 1 ДЕКАБРЯ
+              <a href="#info" className="inline-block mx-8">
+                <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-8 py-4 text-lg">
+                  Узнать больше
+                </Button>
+              </a>
+              ОТКРЫТИЕ 1 ДЕКАБРЯ
+              <a href="#info" className="inline-block mx-8">
+                <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-8 py-4 text-lg">
+                  Узнать больше
+                </Button>
+              </a>
+              ОТКРЫТИЕ 1 ДЕКАБРЯ
             </div>
-          </div>
-          <div className="mt-8 text-center">
-            <a href="#info">
-              <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-8 py-6 text-lg">
-                Узнать больше
-              </Button>
-            </a>
           </div>
         </section>
 
