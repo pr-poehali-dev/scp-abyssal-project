@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 const Index = () => {
   const [activeSection, setActiveSection] = useState('');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [selectedTab, setSelectedTab] = useState<number>(1);
+  const [hoveredTab, setHoveredTab] = useState<number>(1);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -102,20 +102,20 @@ const Index = () => {
     },
   ];
 
-  const [selectedPlayStep, setSelectedPlayStep] = useState<number>(1);
+  const [hoveredPlayStep, setHoveredPlayStep] = useState<number>(1);
 
   const team = [
     { name: 'Baltica', role: 'Владелец сообщества', image: 'https://i.imgur.com/riJ3JPA.png' },
     { name: 'Atu', role: 'Владелец сообщества', image: 'https://i.imgur.com/FkFWiLi.png' },
     { name: 'CEO', role: 'Ведущий разработчик систем', image: 'https://i.imgur.com/lhNoGIM.png' },
     { name: 'Snake', role: 'Ведущий разработчик карты', image: 'https://i.imgur.com/R5GqTmZ.png' },
-    { name: 'NoName', role: 'Разработчик Discord бота', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Mesafer', role: 'Разработчик карты', image: 'https://i.imgur.com/moH7Cgw.png' },
   ];
 
   const getAboutImage = () => {
-    if (selectedTab === 1) return 'https://cdn.poehali.dev/files/57ed5eeb-bf78-4d2b-b81f-9ebbd9f4d88b.png';
-    if (selectedTab === 2) return 'https://cdn.poehali.dev/files/b033cad8-ce5e-4a10-b97b-73adaef8ae87.png';
-    if (selectedTab === 3) return 'https://cdn.poehali.dev/files/14d2838e-a9a1-4442-af1c-70d449c6dec1.png';
+    if (hoveredTab === 1) return 'https://cdn.poehali.dev/files/57ed5eeb-bf78-4d2b-b81f-9ebbd9f4d88b.png';
+    if (hoveredTab === 2) return 'https://cdn.poehali.dev/files/b033cad8-ce5e-4a10-b97b-73adaef8ae87.png';
+    if (hoveredTab === 3) return 'https://cdn.poehali.dev/files/14d2838e-a9a1-4442-af1c-70d449c6dec1.png';
     return 'https://cdn.poehali.dev/files/57ed5eeb-bf78-4d2b-b81f-9ebbd9f4d88b.png';
   };
 
@@ -199,12 +199,14 @@ const Index = () => {
                 <div className="space-y-6">
                   <div 
                     className={`info-bar-grid border-l-2 pl-4 py-4 animate-fade-in cursor-pointer relative overflow-hidden ${
-                      selectedTab === 1 ? 'border-primary' : 'border-white/20 hover:border-primary'
+                      hoveredTab === 1 ? 'border-primary' : 'border-white/20 hover:border-primary'
                     }`}
                     style={{ animationDelay: '0.2s' }}
-                    onClick={() => setSelectedTab(1)}
+                    onMouseEnter={() => setHoveredTab(1)}
                   >
-                    <div className="text-sm tracking-wider mb-2 text-primary">01</div>
+                    <div className={`text-sm tracking-wider mb-2 transition-colors duration-300 ${
+                      hoveredTab === 1 ? 'text-primary' : 'text-muted-foreground'
+                    }`}>01</div>
                     <h4 className="text-xl font-bold mb-2">Abyssal SCP RP</h4>
                     <p className="text-sm leading-relaxed opacity-80">
                       Abyssal — это уникальный SCP RP проект разработанный на базе игры Garry's Mod, который предлагает своим игрокам погрузиться в мир океанской бездны.
@@ -213,12 +215,14 @@ const Index = () => {
 
                   <div 
                     className={`info-bar-grid border-l-2 pl-4 py-4 animate-fade-in cursor-pointer relative overflow-hidden ${
-                      selectedTab === 2 ? 'border-primary' : 'border-white/20 hover:border-primary'
+                      hoveredTab === 2 ? 'border-primary' : 'border-white/20 hover:border-primary'
                     }`}
                     style={{ animationDelay: '0.4s' }}
-                    onClick={() => setSelectedTab(2)}
+                    onMouseEnter={() => setHoveredTab(2)}
                   >
-                    <div className="text-sm tracking-wider mb-2 text-muted-foreground">02</div>
+                    <div className={`text-sm tracking-wider mb-2 transition-colors duration-300 ${
+                      hoveredTab === 2 ? 'text-primary' : 'text-muted-foreground'
+                    }`}>02</div>
                     <h4 className="text-xl font-bold mb-2">Ролевой проект</h4>
                     <p className="text-sm leading-relaxed opacity-80">
                       Станьте частью команды станции 119, расположенной на глубине 3800 метров. Исследуйте аномальные объекты, поддерживайте протоколы безопасности, взаимодействуйте с другими игроками под огромным давлением океанской бездны.
@@ -227,12 +231,14 @@ const Index = () => {
 
                   <div 
                     className={`info-bar-grid border-l-2 pl-4 py-4 animate-fade-in cursor-pointer relative overflow-hidden ${
-                      selectedTab === 3 ? 'border-primary' : 'border-white/20 hover:border-primary'
+                      hoveredTab === 3 ? 'border-primary' : 'border-white/20 hover:border-primary'
                     }`}
                     style={{ animationDelay: '0.6s' }}
-                    onClick={() => setSelectedTab(3)}
+                    onMouseEnter={() => setHoveredTab(3)}
                   >
-                    <div className="text-sm tracking-wider mb-2 text-muted-foreground">03</div>
+                    <div className={`text-sm tracking-wider mb-2 transition-colors duration-300 ${
+                      hoveredTab === 3 ? 'text-primary' : 'text-muted-foreground'
+                    }`}>03</div>
                     <h4 className="text-xl font-bold mb-2">Выживание</h4>
                     <p className="text-sm leading-relaxed opacity-80">
                       Каждое решение может стоить жизни экипажу. Прорывы SCP объектов, технические аварии, угрозы из глубин — готовы ли вы погрузиться в бездну?
@@ -309,12 +315,14 @@ const Index = () => {
             <div className="max-w-4xl mx-auto space-y-8">
               <div 
                 className={`info-bar-grid border-l-2 pl-6 py-6 animate-fade-in transition-all duration-500 cursor-pointer relative overflow-hidden ${
-                  selectedPlayStep === 1 ? 'border-primary' : 'border-white/20 hover:border-primary'
+                  hoveredPlayStep === 1 ? 'border-primary' : 'border-white/20 hover:border-primary'
                 }`}
                 style={{ animationDelay: '0.2s' }}
-                onClick={() => setSelectedPlayStep(1)}
+                onMouseEnter={() => setHoveredPlayStep(1)}
               >
-                <div className="text-sm tracking-wider mb-3 text-primary font-bold">ШАГ 1</div>
+                <div className={`text-sm tracking-wider mb-3 font-bold transition-colors duration-300 ${
+                  hoveredPlayStep === 1 ? 'text-primary' : 'text-muted-foreground'
+                }`}>ШАГ 1</div>
                 <h4 className="text-2xl font-bold mb-3">Установить Garry's Mod</h4>
                 <p className="text-base leading-relaxed opacity-80">
                   Установите Garry's Mod через Steam. Если игры нет в вашей библиотеке, потребуется её приобрести.
@@ -323,12 +331,14 @@ const Index = () => {
 
               <div 
                 className={`info-bar-grid border-l-2 pl-6 py-6 animate-fade-in transition-all duration-500 cursor-pointer relative overflow-hidden ${
-                  selectedPlayStep === 2 ? 'border-primary' : 'border-white/20 hover:border-primary'
+                  hoveredPlayStep === 2 ? 'border-primary' : 'border-white/20 hover:border-primary'
                 }`}
                 style={{ animationDelay: '0.4s' }}
-                onClick={() => setSelectedPlayStep(2)}
+                onMouseEnter={() => setHoveredPlayStep(2)}
               >
-                <div className="text-sm tracking-wider mb-3 text-muted-foreground font-bold">ШАГ 2</div>
+                <div className={`text-sm tracking-wider mb-3 font-bold transition-colors duration-300 ${
+                  hoveredPlayStep === 2 ? 'text-primary' : 'text-muted-foreground'
+                }`}>ШАГ 2</div>
                 <h4 className="text-2xl font-bold mb-3">Установить контент сервера</h4>
                 <p className="text-base leading-relaxed opacity-80">
                   Перейдите в нашу Steam Workshop Collection и подпишитесь на необходимые файлы
@@ -337,12 +347,14 @@ const Index = () => {
 
               <div 
                 className={`info-bar-grid border-l-2 pl-6 py-6 animate-fade-in transition-all duration-500 cursor-pointer relative overflow-hidden ${
-                  selectedPlayStep === 3 ? 'border-primary' : 'border-white/20 hover:border-primary'
+                  hoveredPlayStep === 3 ? 'border-primary' : 'border-white/20 hover:border-primary'
                 }`}
                 style={{ animationDelay: '0.6s' }}
-                onClick={() => setSelectedPlayStep(3)}
+                onMouseEnter={() => setHoveredPlayStep(3)}
               >
-                <div className="text-sm tracking-wider mb-3 text-muted-foreground font-bold">ШАГ 3</div>
+                <div className={`text-sm tracking-wider mb-3 font-bold transition-colors duration-300 ${
+                  hoveredPlayStep === 3 ? 'text-primary' : 'text-muted-foreground'
+                }`}>ШАГ 3</div>
                 <h4 className="text-2xl font-bold mb-3">Зайдите на сервер</h4>
                 <p className="text-base leading-relaxed opacity-80">
                   Дождитесь их загрузки, после чего запустите игру и подключитесь к серверу.
