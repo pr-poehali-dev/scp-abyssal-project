@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Roboto+Mono:wght@300;400;500&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -64,7 +64,8 @@
   h4,
   h5,
   h6 {
-    font-family: "Orbitron", sans-serif;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
   }
 }
 
@@ -113,31 +114,32 @@
 
   @keyframes float-up {
     0% {
-      transform: translateY(100vh) translateX(0);
+      transform: translateY(0) translateX(0);
       opacity: 0;
     }
     10% {
-      opacity: 0.6;
+      opacity: 0.4;
     }
     90% {
-      opacity: 0.6;
+      opacity: 0.4;
     }
     100% {
-      transform: translateY(-100px) translateX(50px);
+      transform: translateY(-120vh) translateX(30px);
       opacity: 0;
     }
   }
 
   .bubble {
-    position: absolute;
+    position: fixed;
     border-radius: 50%;
     background: radial-gradient(
       circle at 30% 30%,
-      rgba(29, 185, 84, 0.4),
-      rgba(29, 185, 84, 0.1)
+      rgba(29, 185, 84, 0.3),
+      rgba(29, 185, 84, 0.05)
     );
-    box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
-    animation: float-up linear infinite;
+    box-shadow: 0 0 15px rgba(29, 185, 84, 0.2);
+    pointer-events: none;
+    transition: transform 0.2s ease-out;
   }
 
   @keyframes scroll-left {
@@ -167,5 +169,54 @@
   .animate-fade-in {
     animation: fade-in-up 0.8s ease-out forwards;
     opacity: 0;
+  }
+
+  .nav-link.active {
+    color: hsl(var(--primary));
+    position: relative;
+  }
+
+  .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: hsl(var(--primary));
+  }
+
+  .decorative-lines {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    opacity: 0.1;
+  }
+
+  .decorative-lines::before,
+  .decorative-lines::after {
+    content: "";
+    position: absolute;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      hsl(var(--primary)),
+      transparent
+    );
+    height: 2px;
+  }
+
+  .decorative-lines::before {
+    width: 100%;
+    top: 50%;
+    left: -50%;
+    transform: rotate(-30deg);
+  }
+
+  .decorative-lines::after {
+    width: 100%;
+    top: 50%;
+    right: -50%;
+    transform: rotate(30deg);
   }
 }

@@ -1,15 +1,63 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [activeSection, setActiveSection] = useState('');
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const bubblesRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      
+      const sections = ['about', 'features', 'team', 'info'];
+      const current = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+      
+      setActiveSection(current || '');
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+      
+      bubblesRef.current.forEach((bubble) => {
+        if (!bubble) return;
+        const rect = bubble.getBoundingClientRect();
+        const bubbleX = rect.left + rect.width / 2;
+        const bubbleY = rect.top + rect.height / 2;
+        
+        const deltaX = e.clientX - bubbleX;
+        const deltaY = e.clientY - bubbleY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        if (distance < 150) {
+          const force = (150 - distance) / 150;
+          const moveX = -deltaX * force * 0.5;
+          const moveY = -deltaY * force * 0.5;
+          bubble.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        } else {
+          bubble.style.transform = 'translate(0, 0)';
+        }
+      });
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   const features = [
@@ -46,35 +94,50 @@ const Index = () => {
   ];
 
   const team = [
-    { name: 'Alucard', role: 'DIRECTEUR COMMUNAUTAIRE', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Biazox', role: 'CO-DIRECTEUR COMMUNAUTAIRE', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Raptor', role: 'CO-DIRECTEUR COMMUNAUTAIRE', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Punisher', role: 'COORDINATEUR', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Jason', role: 'COMMUNITY MANAGER', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'mxd', role: 'DIRECTEUR TECHNIQUE', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Toheyyy', role: 'PÔLE TECHNIQUE', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
-    { name: 'Nhilis', role: 'RESPONSABLE DE PROJET', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Alucard', role: 'Директор сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Biazox', role: 'Со-директор сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Raptor', role: 'Со-директор сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Punisher', role: 'Координатор', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Jason', role: 'Менеджер сообщества', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'mxd', role: 'Технический директор', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Toheyyy', role: 'Технический отдел', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
+    { name: 'Nhilis', role: 'Руководитель проекта', image: 'https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png' },
   ];
+
+  const bubbles = [...Array(40)].map((_, i) => ({
+    left: Math.random() * 100,
+    bottom: Math.random() * 100,
+    size: 5 + Math.random() * 15,
+    duration: 20 + Math.random() * 30,
+    delay: Math.random() * 20,
+  }));
 
   return (
     <div className="min-h-screen bg-[#051510] text-white relative overflow-hidden">
-      <div className="fixed inset-0 pointer-events-none">
-        {[...Array(15)].map((_, i) => (
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {bubbles.map((bubble, i) => (
           <div
             key={i}
+            ref={(el) => {
+              if (el) bubblesRef.current[i] = el;
+            }}
             className="bubble"
             style={{
-              left: `${Math.random() * 100}%`,
-              width: `${20 + Math.random() * 60}px`,
-              height: `${20 + Math.random() * 60}px`,
-              animationDuration: `${15 + Math.random() * 20}s`,
-              animationDelay: `${Math.random() * 10}s`,
+              left: `${bubble.left}%`,
+              bottom: `${bubble.bottom}%`,
+              width: `${bubble.size}px`,
+              height: `${bubble.size}px`,
+              animation: `float-up ${bubble.duration}s linear infinite`,
+              animationDelay: `${bubble.delay}s`,
             }}
           />
         ))}
       </div>
 
-      <div className="fixed inset-0 pointer-events-none opacity-30">
+      <div className="decorative-lines" style={{ top: '20%', left: '10%' }}></div>
+      <div className="decorative-lines" style={{ top: '60%', right: '10%' }}></div>
+
+      <div className="fixed inset-0 pointer-events-none opacity-30 z-0">
         <div className="absolute inset-0 bg-gradient-radial from-[#1DB954]/20 via-transparent to-transparent"></div>
       </div>
 
@@ -85,28 +148,28 @@ const Index = () => {
             <h1 className="text-xl font-bold tracking-wider">ABYSSAL</h1>
           </div>
           <nav className="hidden md:flex gap-8 text-sm">
-            <a href="#about" className="hover:text-primary transition-colors tracking-wide">
-              About
+            <a href="#about" className={`nav-link hover:text-primary transition-colors tracking-wide ${activeSection === 'about' ? 'active' : ''}`}>
+              О проекте
             </a>
-            <a href="#features" className="hover:text-primary transition-colors tracking-wide">
-              Information
+            <a href="#features" className={`nav-link hover:text-primary transition-colors tracking-wide ${activeSection === 'features' ? 'active' : ''}`}>
+              Информация
             </a>
-            <a href="#team" className="hover:text-primary transition-colors tracking-wide">
-              Team
+            <a href="#team" className={`nav-link hover:text-primary transition-colors tracking-wide ${activeSection === 'team' ? 'active' : ''}`}>
+              Команда
             </a>
           </nav>
           <div className="flex gap-4">
             <Button className="corner-bracket bg-transparent border border-primary text-primary hover:bg-primary hover:text-black px-6">
-              JOIN SERVER
+              Подключиться
             </Button>
             <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-6">
-              PLAY NOW
+              Играть
             </Button>
           </div>
         </div>
       </header>
 
-      <main>
+      <main className="relative z-10">
         <section
           className="min-h-screen flex items-center justify-center relative pt-20"
           style={{
@@ -116,9 +179,10 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-[#051510] via-transparent to-[#051510]"></div>
 
           <div className="container mx-auto px-4 text-center relative z-10">
-            <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <div className="text-6xl md:text-9xl font-black mb-4 tracking-wider">
-                <div className="text-white">ABYSSAL</div>
+            <div className="mb-8 animate-fade-in flex flex-col items-center gap-6" style={{ animationDelay: '0.2s' }}>
+              <img src="https://cdn.poehali.dev/files/4468007d-3ca2-4d75-af22-bd7b04f04385.png" alt="Abyssal Logo" className="w-32 h-32 opacity-90" />
+              <div className="text-6xl md:text-9xl font-black tracking-wider text-primary">
+                ABYSSAL
               </div>
             </div>
             <p className="text-lg md:text-xl mb-12 tracking-widest opacity-80 animate-fade-in" style={{ animationDelay: '0.4s' }}>
@@ -126,7 +190,7 @@ const Index = () => {
             </p>
             <div className="flex justify-center items-center gap-2 animate-bounce" style={{ animationDelay: '1s' }}>
               <Icon name="ChevronDown" size={20} />
-              <span className="text-sm tracking-widest">Scroll</span>
+              <span className="text-sm tracking-widest">Прокрутить</span>
             </div>
           </div>
         </section>
@@ -136,8 +200,8 @@ const Index = () => {
             <div className="grid md:grid-cols-2 gap-16 items-start">
               <div className="space-y-8">
                 <div className="animate-fade-in">
-                  <div className="text-sm tracking-widest opacity-50 mb-2">ABOUT</div>
-                  <h3 className="text-4xl font-bold tracking-wide">ABOUT</h3>
+                  <div className="text-sm tracking-widest opacity-50 mb-2">О ПРОЕКТЕ</div>
+                  <h3 className="text-4xl font-bold tracking-wide">О ПРОЕКТЕ</h3>
                 </div>
 
                 <div className="space-y-6">
@@ -172,11 +236,11 @@ const Index = () => {
               </div>
 
               <div className="relative animate-fade-in" style={{ animationDelay: '0.8s' }}>
-                <div className="corner-bracket aspect-square bg-gradient-to-br from-primary/20 to-transparent grid-bg p-8 flex items-center justify-center">
+                <div className="corner-bracket aspect-square bg-gradient-to-br from-primary/20 to-transparent grid-bg p-8 flex items-center justify-center overflow-hidden">
                   <img
-                    src="https://cdn.poehali.dev/files/31199a1a-f99f-4780-b831-6ff4e1991487.png"
-                    alt="Abyssal Logo"
-                    className="w-full h-auto max-w-md opacity-80"
+                    src="https://cdn.poehali.dev/files/24a714af-6942-423f-9d65-d1abc526b450.png"
+                    alt="Abyssal Station"
+                    className="w-full h-full object-cover opacity-90"
                   />
                 </div>
               </div>
@@ -187,8 +251,8 @@ const Index = () => {
         <section id="features" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="mb-16 animate-fade-in">
-              <div className="text-sm tracking-widest opacity-50 mb-2">DISCOVER THE</div>
-              <h3 className="text-5xl font-bold tracking-wide mb-6">POSSIBILITIES</h3>
+              <div className="text-sm tracking-widest opacity-50 mb-2">ОТКРОЙТЕ ДЛЯ СЕБЯ</div>
+              <h3 className="text-5xl font-bold tracking-wide mb-6">ВОЗМОЖНОСТИ</h3>
               <p className="text-sm leading-relaxed opacity-80 max-w-2xl">
                 Возможности этой игры безграничны! От строительства собственных баз до участия в
                 различных игровых режимах и сценариях выживания в глубинах океана.
@@ -229,20 +293,30 @@ const Index = () => {
           </div>
         </section>
 
-        <section className="py-20 relative bg-[#0a1f18]/50 border-y border-primary/20 overflow-hidden">
-          <div className="scroll-text whitespace-nowrap text-6xl font-bold tracking-wider opacity-80">
-            ОТКРЫТИЕ 1 ДЕКАБРЯ • НАЧАТЬ ИГРУ • ОТКРЫТИЕ 1 ДЕКАБРЯ • НАЧАТЬ ИГРУ • ОТКРЫТИЕ 1 ДЕКАБРЯ • НАЧАТЬ ИГРУ •
+        <section className="py-16 relative bg-gradient-to-r from-[#0a1f18] via-primary/10 to-[#0a1f18] border-y border-primary/30 overflow-hidden">
+          <div className="absolute inset-0 grid-bg opacity-50"></div>
+          <div className="container mx-auto px-4 flex items-center justify-between gap-8 relative z-10">
+            <div className="scroll-text whitespace-nowrap text-4xl md:text-6xl font-bold tracking-wider flex-shrink-0">
+              ОТКРЫТИЕ 1 ДЕКАБРЯ • ОТКРЫТИЕ 1 ДЕКАБРЯ • ОТКРЫТИЕ 1 ДЕКАБРЯ •
+            </div>
+          </div>
+          <div className="mt-8 text-center">
+            <a href="#info">
+              <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-8 py-6 text-lg">
+                Узнать больше
+              </Button>
+            </a>
           </div>
         </section>
 
         <section id="team" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="mb-16 text-center animate-fade-in">
-              <div className="text-sm tracking-widest opacity-50 mb-2">NOTRE ÉQUIPE</div>
-              <h3 className="text-5xl font-bold tracking-wide mb-4">NOTRE ÉQUIPE</h3>
+              <div className="text-sm tracking-widest opacity-50 mb-2">НАША КОМАНДА</div>
+              <h3 className="text-5xl font-bold tracking-wide mb-4">НАША КОМАНДА</h3>
               <div className="w-16 h-1 bg-primary mx-auto mb-4"></div>
               <p className="text-sm opacity-70 max-w-3xl mx-auto">
-                Découvrez les personnes passionnées qui travaillent sans relâche pour créer et maintenir ces expériences de jeu uniques
+                Познакомьтесь с увлечёнными людьми, которые неустанно работают над созданием и поддержкой уникального игрового опыта
               </p>
             </div>
 
@@ -261,7 +335,6 @@ const Index = () => {
                       <h4 className="text-lg font-bold tracking-wide">{member.name}</h4>
                       <p className="text-xs tracking-wider opacity-60 uppercase">{member.role}</p>
                     </div>
-                    <div className="text-sm opacity-60">{member.role.split(' ')[0]}</div>
                   </div>
                 </div>
               ))}
@@ -272,14 +345,14 @@ const Index = () => {
         <section id="info" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="mb-16 animate-fade-in">
-              <div className="text-sm tracking-widest opacity-50 mb-2">INFORMATION</div>
-              <h3 className="text-5xl font-bold tracking-wide">INFORMATION</h3>
+              <div className="text-sm tracking-widest opacity-50 mb-2">ИНФОРМАЦИЯ</div>
+              <h3 className="text-5xl font-bold tracking-wide">ИНФОРМАЦИЯ</h3>
             </div>
 
             <div className="space-y-4 max-w-4xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <div className="border border-white/10 hover:border-primary transition-all">
                 <button className="w-full p-6 flex items-center justify-between text-left">
-                  <span className="text-xl tracking-wide">Discord Server</span>
+                  <span className="text-xl tracking-wide">Discord сервер</span>
                   <Icon name="Plus" size={24} />
                 </button>
               </div>
@@ -293,7 +366,7 @@ const Index = () => {
 
               <div className="border border-white/10 hover:border-primary transition-all">
                 <button className="w-full p-6 flex items-center justify-between text-left">
-                  <span className="text-xl tracking-wide">Content Creators</span>
+                  <span className="text-xl tracking-wide">Контент-криэйторы</span>
                   <Icon name="Plus" size={24} />
                 </button>
               </div>
@@ -302,7 +375,7 @@ const Index = () => {
         </section>
       </main>
 
-      <footer className="py-8 border-t border-white/10">
+      <footer className="py-8 border-t border-white/10 relative z-10">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex gap-4">
