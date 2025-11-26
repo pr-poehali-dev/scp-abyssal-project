@@ -10,7 +10,7 @@ const Index = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['about', 'features', 'collage', 'play', 'team', 'info'];
+      const sections = ['info', 'team', 'play', 'collage', 'features', 'about'];
       const current = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -247,11 +247,13 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="animate-fade-in" style={{ animationDelay: '0.8s' }}>
+              <div className="animate-fade-in relative" style={{ animationDelay: '0.8s' }}>
                 <img
+                  key={hoveredTab}
                   src={getAboutImage()}
                   alt="Станция 119"
-                  className="w-full h-auto rounded-lg shadow-2xl transition-all duration-700 ease-in-out"
+                  className="w-full h-auto rounded-lg shadow-2xl transition-opacity duration-500 ease-in-out"
+                  style={{ animation: 'fadeInImage 0.5s ease-in-out' }}
                 />
               </div>
             </div>
