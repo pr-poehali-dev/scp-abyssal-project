@@ -155,7 +155,7 @@ const Index = () => {
             </a>
           </nav>
           <div className="flex gap-4">
-            <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-6">
+            <Button className="bg-primary/10 text-primary border-2 border-primary hover:bg-primary hover:text-black transition-all duration-300 px-6">
               Подключиться
             </Button>
           </div>
@@ -200,11 +200,9 @@ const Index = () => {
                     style={{ animationDelay: '0.2s' }}
                   >
                     <div className="text-sm tracking-wider mb-2 text-primary">01</div>
-                    <h4 className="text-xl font-bold mb-2">Станция 119</h4>
+                    <h4 className="text-xl font-bold mb-2">Abyssal SCP RP</h4>
                     <p className="text-sm leading-relaxed opacity-80">
-                      Добро пожаловать на станцию 119, которая расположена на дне океана, на глубине 3800 метров. 
-                      Она полностью автономна, погружена во мрак и находится под огромным давлением бездны. 
-                      Её главная цель — изучение и содержание аномальных объектов.
+                      Abyssal — это уникальный SCP RP проект разработанный на базе игры Garry's Mod, который предлагает своим игрокам погрузиться в мир океанской бездны.
                     </p>
                   </div>
 
@@ -217,9 +215,7 @@ const Index = () => {
                     <div className="text-sm tracking-wider mb-2 text-muted-foreground">02</div>
                     <h4 className="text-xl font-bold mb-2">Ролевой проект</h4>
                     <p className="text-sm leading-relaxed opacity-80">
-                      Станьте частью команды станции 119, расположенной на глубине 3800 метров. 
-                      Исследуйте аномальные объекты, поддерживайте протоколы безопасности, 
-                      взаимодействуйте с другими игроками под огромным давлением океанской бездны.
+                      Станьте частью команды станции 119, расположенной на глубине 3800 метров. Исследуйте аномальные объекты, поддерживайте протоколы безопасности, взаимодействуйте с другими игроками под огромным давлением океанской бездны.
                     </p>
                   </div>
 
@@ -230,11 +226,9 @@ const Index = () => {
                     onMouseLeave={() => setHoveredTab(null)}
                   >
                     <div className="text-sm tracking-wider mb-2 text-muted-foreground">03</div>
-                    <h4 className="text-xl font-bold mb-2">Прогресс разработки</h4>
+                    <h4 className="text-xl font-bold mb-2">Выживание</h4>
                     <p className="text-sm leading-relaxed opacity-80">
-                      Наша команда профессионалов работает над созданием качественной игровой среды: 
-                      детальная карта, сложные системы и уникальные механики делают Abyssal 
-                      непохожим на другие проекты.
+                      Каждое решение может стоить жизни экипажу. Прорывы SCP объектов, технические аварии, угрозы из глубин — готовы ли вы погрузиться в бездну?
                     </p>
                   </div>
                 </div>
@@ -256,7 +250,7 @@ const Index = () => {
             <div className="text-center mb-20 animate-fade-in">
               <h3 className="text-4xl font-bold tracking-wide mb-4">ОСОБЕННОСТИ</h3>
               <p className="text-lg opacity-80 max-w-2xl mx-auto">
-                Что делает Abyssal уникальным
+                Наш сервер предлагает уникальный контент для своих игроков, включающий:
               </p>
             </div>
 
@@ -336,9 +330,9 @@ const Index = () => {
         <section id="team" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="text-center mb-20 animate-fade-in">
-              <h3 className="text-4xl font-bold tracking-wide mb-4">КОМАНДА РАЗРАБОТКИ</h3>
+              <h3 className="text-4xl font-bold tracking-wide mb-4">НАША КОМАНДА</h3>
               <p className="text-lg opacity-80">
-                Люди, создающие Abyssal
+                Познакомьтесь с энтузиастами, которые постоянно работают над созданием и поддержкой уникального игрового опыта
               </p>
             </div>
 
@@ -379,7 +373,7 @@ const Index = () => {
                   Ознакомьтесь с правилами перед игрой
                 </p>
                 <Button 
-                  className="corner-bracket bg-primary text-black hover:bg-primary/80 transition-all duration-300"
+                  className="bg-primary/10 text-primary border-2 border-primary hover:bg-primary hover:text-black transition-all duration-300"
                   onClick={() => window.open('https://docs.google.com/document/d/1-kfYPFuVXjW8GpphXEhmNSu0ej3fMNtHBn-2HeK0oP0/edit', '_blank')}
                 >
                   Читать правила
@@ -392,7 +386,10 @@ const Index = () => {
                 <p className="text-sm opacity-80 mb-6">
                   Общайтесь с игроками и следите за новостями
                 </p>
-                <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 transition-all duration-300">
+                <Button 
+                  className="bg-primary/10 text-primary border-2 border-primary hover:bg-primary hover:text-black transition-all duration-300"
+                  onClick={() => window.open('https://discord.gg/your-server', '_blank')}
+                >
                   Присоединиться
                 </Button>
               </Card>
