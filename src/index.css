@@ -228,37 +228,23 @@
     background: hsl(var(--primary));
   }
 
-  .decorative-lines {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    opacity: 0.1;
+  .bg-lines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
   }
 
-  .decorative-lines::before,
-  .decorative-lines::after {
-    content: "";
+  .diagonal-line {
     position: absolute;
+    width: 1px;
+    height: 200%;
     background: linear-gradient(
-      45deg,
+      to bottom,
       transparent,
-      hsl(var(--primary)),
+      rgba(29, 185, 84, 0.1),
       transparent
     );
-    height: 2px;
-  }
-
-  .decorative-lines::before {
-    width: 100%;
-    top: 50%;
-    left: -50%;
-    transform: rotate(-30deg);
-  }
-
-  .decorative-lines::after {
-    width: 100%;
-    top: 50%;
-    right: -50%;
-    transform: rotate(30deg);
+    transform-origin: top;
   }
 }

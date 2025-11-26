@@ -100,8 +100,19 @@ const Index = () => {
         ))}
       </div>
 
-      <div className="decorative-lines" style={{ top: '20%', left: '10%' }}></div>
-      <div className="decorative-lines" style={{ top: '60%', right: '10%' }}></div>
+      <div className="bg-lines">
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="diagonal-line"
+            style={{
+              left: `${(100 / 12) * i}%`,
+              transform: `rotate(${-20 + Math.random() * 10}deg)`,
+              opacity: 0.3 + Math.random() * 0.3,
+            }}
+          />
+        ))}
+      </div>
 
       <div className="fixed inset-0 pointer-events-none opacity-20 z-0">
         <div className="absolute inset-0 bg-gradient-radial from-primary/30 via-transparent to-transparent"></div>
@@ -240,40 +251,7 @@ const Index = () => {
           </div>
         </section>
 
-        <section className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <div className="corner-bracket overflow-hidden">
-              <img 
-                src="https://cdn.poehali.dev/files/1bf6ec50-48fb-4fb0-bb39-2d15dd7ae2ab.png" 
-                alt="Station Panorama" 
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="grid md:grid-cols-3 gap-6 mt-6">
-              <div className="corner-bracket overflow-hidden aspect-video">
-                <img 
-                  src="https://cdn.poehali.dev/files/2acc98ac-6452-4579-8a05-0c09f442b535.jpg" 
-                  alt="Station View 1" 
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div className="corner-bracket overflow-hidden aspect-video">
-                <img 
-                  src="https://cdn.poehali.dev/files/00ff84c6-e55d-4e12-9fb4-004024a85a16.jpg" 
-                  alt="Station View 2" 
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div className="corner-bracket overflow-hidden aspect-video">
-                <img 
-                  src="https://cdn.poehali.dev/files/703e246f-04f1-42e7-aa4f-ec0af8bceb46.jpg" 
-                  alt="Station View 3" 
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         <section id="team" className="py-32 relative">
           <div className="container mx-auto px-4">
