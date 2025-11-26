@@ -91,17 +91,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden" style={{ backgroundColor: `rgb(${waterColor.r}, ${waterColor.g}, ${waterColor.b})` }}>
-      <div className="fixed inset-0 pointer-events-none z-0">
+      <div className="absolute inset-0 pointer-events-none z-0">
         {bubbles.map((bubble, i) => (
           <div
             key={i}
             className="bubble"
             style={{
               left: `${bubble.left}%`,
-              bottom: `${bubble.bottom}%`,
               width: `${bubble.size}px`,
               height: `${bubble.size}px`,
-              animation: `float-up ${bubble.duration}s linear infinite`,
+              animation: `bubble-rise ${bubble.duration}s linear infinite`,
               animationDelay: `${bubble.delay}s`,
             }}
           />
@@ -146,11 +145,8 @@ const Index = () => {
             </a>
           </nav>
           <div className="flex gap-4">
-            <Button className="corner-bracket bg-transparent border border-primary text-primary hover:bg-primary hover:text-black px-6">
-              Подключиться
-            </Button>
             <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-6">
-              Играть
+              Подключиться
             </Button>
           </div>
         </div>
@@ -170,10 +166,11 @@ const Index = () => {
               <img 
                 src="https://cdn.poehali.dev/files/fe990dfb-c590-4ee5-b575-5f5888df05bb.png" 
                 alt="Abyssal SCP RP" 
-                className="w-full max-w-2xl h-auto opacity-90"
+                className="w-full max-w-2xl h-auto opacity-90 select-none pointer-events-none"
+                draggable="false"
               />
             </div>
-            <p className="text-lg md:text-2xl mb-12 tracking-wide opacity-90 animate-fade-in max-w-4xl mx-auto" style={{ animationDelay: '0.4s' }}>
+            <p className="text-lg md:text-2xl mb-12 tracking-wide opacity-90 animate-fade-in max-w-4xl mx-auto font-bold" style={{ animationDelay: '0.4s', fontFamily: 'Montserrat, sans-serif' }}>
               Abyssal — это уникальный SCP RP проект разработанный на базе игры Garry's Mod,<br />
               который предлагает своим игрокам погрузиться в мир океанской бездны
             </p>
@@ -263,26 +260,7 @@ const Index = () => {
           </div>
         </section>
 
-        <section className="py-16 relative bg-gradient-to-r from-[#0a1f18] via-primary/10 to-[#0a1f18] border-y border-primary/30 overflow-hidden">
-          <div className="absolute inset-0 grid-bg opacity-50"></div>
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="scroll-text whitespace-nowrap text-4xl md:text-6xl font-bold tracking-wider">
-              ОТКРЫТИЕ 1 ДЕКАБРЯ
-              <a href="#info" className="inline-block mx-8">
-                <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-8 py-4 text-lg">
-                  Узнать больше
-                </Button>
-              </a>
-              ОТКРЫТИЕ 1 ДЕКАБРЯ
-              <a href="#info" className="inline-block mx-8">
-                <Button className="corner-bracket bg-primary text-black hover:bg-primary/80 px-8 py-4 text-lg">
-                  Узнать больше
-                </Button>
-              </a>
-              ОТКРЫТИЕ 1 ДЕКАБРЯ
-            </div>
-          </div>
-        </section>
+
 
         <section id="team" className="py-32 relative">
           <div className="container mx-auto px-4">
@@ -318,11 +296,12 @@ const Index = () => {
 
         <section id="info" className="py-32 relative">
           <div className="container mx-auto px-4">
-            <div className="mb-16 animate-fade-in">
-              <h3 className="text-5xl font-bold tracking-wide">ИНФОРМАЦИЯ</h3>
+            <div className="mb-16 text-center animate-fade-in">
+              <h3 className="text-5xl font-bold tracking-wide mb-4">ИНФОРМАЦИЯ</h3>
+              <div className="w-16 h-1 bg-primary mx-auto"></div>
             </div>
 
-            <div className="space-y-4 max-w-4xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="space-y-4 max-w-4xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <a 
                 href="https://discord.gg/z9P7mMHbQv" 
                 target="_blank" 

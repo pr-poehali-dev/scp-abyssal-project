@@ -112,25 +112,25 @@
     background-size: 50px 50px;
   }
 
-  @keyframes float-up {
-    from {
-      transform: translateY(0);
+  @keyframes bubble-rise {
+    0% {
+      bottom: -10%;
       opacity: 0;
     }
-    10% {
-      opacity: 0.4;
+    15% {
+      opacity: 0.3;
     }
-    90% {
-      opacity: 0.4;
+    85% {
+      opacity: 0.3;
     }
-    to {
-      transform: translateY(-120vh);
+    100% {
+      bottom: 110%;
       opacity: 0;
     }
   }
 
   .bubble {
-    position: fixed;
+    position: absolute;
     border-radius: 50%;
     background: radial-gradient(
       circle at 30% 30%,
@@ -139,7 +139,6 @@
     );
     box-shadow: 0 0 15px rgba(29, 185, 84, 0.2);
     pointer-events: none;
-    will-change: transform;
   }
 
   .info-bar {
