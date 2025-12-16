@@ -88,7 +88,7 @@ const Index = () => {
     {
       icon: 'Mic',
       title: 'Собственная озвучка',
-      description: 'Профессиональная озвучка персонажей и событий создаёт полное погружение в атмосферу станции',
+      description: 'Уникальная озвучка событий создаёт полное погружение в атмосферу игры',
     },
     {
       icon: 'Lock',
@@ -109,14 +109,13 @@ const Index = () => {
     { name: 'Atu', role: 'Владелец сообщества', image: 'https://i.imgur.com/FkFWiLi.png' },
     { name: 'CEO', role: 'Ведущий разработчик систем', image: 'https://i.imgur.com/lhNoGIM.png' },
     { name: 'Snake', role: 'Ведущий разработчик карты', image: 'https://i.imgur.com/R5GqTmZ.png' },
-    { name: 'Mesafer', role: 'Разработчик карты', image: 'https://i.imgur.com/moH7Cgw.png' },
   ];
 
   const getAboutImage = () => {
-    if (hoveredTab === 1) return 'https://cdn.poehali.dev/files/57ed5eeb-bf78-4d2b-b81f-9ebbd9f4d88b.png';
-    if (hoveredTab === 2) return 'https://cdn.poehali.dev/files/b033cad8-ce5e-4a10-b97b-73adaef8ae87.png';
+    if (hoveredTab === 1) return 'https://cdn.poehali.dev/files/bgsite.png';
+    if (hoveredTab === 2) return 'https://cdn.poehali.dev/files/bgsite2.png';
     if (hoveredTab === 3) return 'https://cdn.poehali.dev/files/14d2838e-a9a1-4442-af1c-70d449c6dec1.png';
-    return 'https://cdn.poehali.dev/files/57ed5eeb-bf78-4d2b-b81f-9ebbd9f4d88b.png';
+    return 'https://cdn.poehali.dev/files/bgsite.png';
   };
 
   return (
@@ -151,9 +150,6 @@ const Index = () => {
             </a>
             <a href="#team" className={`nav-link hover:text-primary transition-colors tracking-wide ${activeSection === 'team' ? 'active' : ''}`}>
               Команда
-            </a>
-            <a href="#info" className={`nav-link hover:text-primary transition-colors tracking-wide ${activeSection === 'info' ? 'active' : ''}`}>
-              Информация
             </a>
           </nav>
           <div className="flex gap-4">
@@ -375,7 +371,7 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto justify-items-center">
               {team.map((member, index) => (
                 <div
                   key={index}
