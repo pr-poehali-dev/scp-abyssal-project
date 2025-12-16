@@ -39,6 +39,12 @@ const Refund = () => {
               <p className="text-sm opacity-80 leading-relaxed">
                 При успешном пополнении счёта игрового аккаунта на любую сумму оплата не подлежит возврату. Приобретая донат-валюту, вы соглашаетесь с тем, что предоставляете добровольное пожертвование на развитие проекта Abyssal.
               </p>
+              <p className="text-sm opacity-80 leading-relaxed mt-4">
+                <strong>Оператор:</strong><br />
+                ИП Киселев Николай Александрович<br />
+                ОГРНИП: 324784700201111<br />
+                ИНН: 784105099308
+              </p>
             </section>
 
             <section>
@@ -98,7 +104,7 @@ const Refund = () => {
             </section>
 
             <div className="pt-6 border-t border-primary/20 text-center">
-              <p className="text-sm opacity-60">Дата последнего изменения соглашения: 22 мая 2025 года</p>
+              <p className="text-sm opacity-60">Дата последнего изменения соглашения: 16 декабря 2025 года</p>
               <p className="text-sm opacity-60 mt-2">Политика действует бессрочно до замены её новой версией</p>
             </div>
           </Card>

@@ -39,6 +39,12 @@ const Services = () => {
               <p className="text-sm opacity-80 leading-relaxed">
                 Проект Abyssal предоставляет пользователям услуги игрового сервера с дополнительными возможностями, доступными через систему донат-валюты. Все услуги оказываются в рамках игрового процесса и направлены на улучшение игрового опыта.
               </p>
+              <p className="text-sm opacity-80 leading-relaxed mt-4">
+                <strong>Оператор:</strong><br />
+                ИП Киселев Николай Александрович<br />
+                ОГРНИП: 324784700201111<br />
+                ИНН: 784105099308
+              </p>
             </section>
 
             <section>
@@ -130,7 +136,7 @@ const Services = () => {
             </section>
 
             <div className="pt-6 border-t border-primary/20 text-center">
-              <p className="text-sm opacity-60">Дата последнего обновления: 16 декабря 2024 года</p>
+              <p className="text-sm opacity-60">Дата последнего обновления: 16 декабря 2025 года</p>
               <p className="text-sm opacity-60 mt-2">Документ действует бессрочно до замены его новой версией</p>
             </div>
           </Card>

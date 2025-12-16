@@ -71,6 +71,38 @@ const Donate = () => {
     }
   };
 
+  useEffect(() => {
+    const bubbles: HTMLDivElement[] = [];
+    const createBubble = () => {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      const size = Math.random() * 40 + 10;
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.animationDuration = `${Math.random() * 10 + 15}s`;
+      bubble.style.animationDelay = `${Math.random() * 5}s`;
+      document.body.appendChild(bubble);
+      bubbles.push(bubble);
+
+      setTimeout(() => {
+        bubble.remove();
+        const index = bubbles.indexOf(bubble);
+        if (index > -1) bubbles.splice(index, 1);
+      }, (Math.random() * 10 + 15) * 1000);
+    };
+
+    const interval = setInterval(createBubble, 2000);
+    for (let i = 0; i < 8; i++) {
+      setTimeout(createBubble, i * 500);
+    }
+
+    return () => {
+      clearInterval(interval);
+      bubbles.forEach(b => b.remove());
+    };
+  }, []);
+
   return (
     <div className="min-h-screen text-white relative overflow-hidden bg-[#051510]">
       <div 
@@ -123,11 +155,11 @@ const Donate = () => {
                 <img 
                   src="https://cdn.poehali.dev/files/bgsite.png" 
                   alt="Abyssal Hero" 
-                  className="relative w-full h-auto rounded-2xl shadow-2xl shadow-primary/30 animate-float"
+                  className="relative w-full h-auto shadow-2xl shadow-primary/30 animate-float"
                 />
               </div>
 
-              <Card className="p-8 bg-card/50 backdrop-blur-sm border-2 border-primary/30 hover:border-primary transition-all duration-500 relative overflow-hidden rounded-2xl order-1 lg:order-2">
+              <Card className="p-8 bg-card/50 backdrop-blur-sm border-2 border-primary/30 hover:border-primary transition-all duration-500 relative overflow-hidden rounded-3xl order-1 lg:order-2">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
                 <div className="relative space-y-6">
                   <div>
@@ -140,7 +172,7 @@ const Donate = () => {
                       placeholder="STEAM_0:1:12345678"
                       value={steamId}
                       onChange={(e) => setSteamId(e.target.value)}
-                      className="bg-background/70 border-2 border-primary/30 focus:border-primary text-white text-lg h-14 transition-all duration-300"
+                      className="bg-background/70 border-2 border-primary/30 focus:border-primary text-white text-lg h-14 transition-all duration-300 rounded-xl"
                     />
                     <p className="text-xs opacity-60 mt-2 flex items-center gap-2">
                       <Icon name="Info" size={14} />
@@ -161,7 +193,7 @@ const Donate = () => {
                       placeholder="Минимум 100 ₽"
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
-                      className="bg-background/70 border-2 border-primary/30 focus:border-primary text-white text-lg h-14 transition-all duration-300"
+                      className="bg-background/70 border-2 border-primary/30 focus:border-primary text-white text-lg h-14 transition-all duration-300 rounded-xl"
                       min="100"
                     />
                     
@@ -170,9 +202,9 @@ const Donate = () => {
                         <button
                           key={sum}
                           onClick={() => setAmount(sum.toString())}
-                          className="px-3 py-2 bg-background/70 border-2 border-primary/30 rounded-lg text-sm font-bold hover:border-primary hover:bg-primary/10 transition-all duration-300 group relative overflow-hidden"
+                          className="px-3 py-2 bg-background/70 border-2 border-primary/30 rounded-xl text-sm font-bold hover:border-primary hover:bg-primary/10 transition-all duration-300 group relative overflow-hidden"
                         >
-                          <span className="absolute inset-0 bg-primary/20 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-lg"></span>
+                          <span className="absolute inset-0 bg-primary/20 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></span>
                           <span className="relative">{sum}₽</span>
                         </button>
                       ))}
@@ -182,9 +214,9 @@ const Donate = () => {
                   <Button
                     onClick={handleDonate}
                     disabled={loading}
-                    className="w-full bg-primary text-black hover:bg-primary/90 font-bold text-lg h-14 transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden"
+                    className="w-full bg-primary text-black hover:bg-primary/90 font-bold text-lg h-14 transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden border-2 border-primary rounded-xl"
                   >
-                    <span className="absolute inset-0 bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-300"></span>
+                    <span className="absolute inset-0 bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-300 rounded-xl"></span>
                     <Icon name={loading ? "Loader2" : "CreditCard"} size={20} className={loading ? "animate-spin" : "group-hover:scale-110 transition-transform"} />
                     <span className="relative">{loading ? 'ОБРАБОТКА...' : 'ПОПОЛНИТЬ'}</span>
                   </Button>
@@ -257,6 +289,35 @@ const Donate = () => {
         .animate-fade-in {
           animation: fade-in 0.8s ease-out forwards;
           opacity: 0;
+        }
+        .bubble {
+          position: fixed;
+          bottom: -100px;
+          background: radial-gradient(circle at 30% 30%, rgba(29, 185, 84, 0.3), rgba(29, 185, 84, 0.05));
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 1;
+          animation: rise linear infinite;
+          opacity: 0.6;
+          box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+        }
+        @keyframes rise {
+          0% {
+            bottom: -100px;
+            opacity: 0;
+            transform: translateX(0) scale(1);
+          }
+          10% {
+            opacity: 0.6;
+          }
+          90% {
+            opacity: 0.6;
+          }
+          100% {
+            bottom: 100vh;
+            opacity: 0;
+            transform: translateX(50px) scale(1.2);
+          }
         }
       `}</style>
     </div>
