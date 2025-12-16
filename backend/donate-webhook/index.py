@@ -48,8 +48,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         if result:
             steam_id, amount = result
-            bonus = calculate_bonus(amount)
-            total_amount = amount + bonus
             
             cur.execute(
                 "INSERT INTO players (steam_id, balance, total_donated) VALUES (%s, %s, %s) "
@@ -57,7 +55,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 "balance = players.balance + %s, "
                 "total_donated = players.total_donated + %s, "
                 "updated_at = CURRENT_TIMESTAMP",
-                (steam_id, total_amount, amount, total_amount, amount)
+                (steam_id, amount, amount, amount, amount)
             )
             
             cur.execute(
@@ -80,16 +78,3 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         'body': json.dumps({'success': True}),
         'isBase64Encoded': False
     }
-
-def calculate_bonus(amount: int) -> int:
-    if amount >= 5000:
-        return 1250
-    elif amount >= 2500:
-        return 500
-    elif amount >= 1000:
-        return 150
-    elif amount >= 500:
-        return 50
-    elif amount >= 250:
-        return 10
-    return 0

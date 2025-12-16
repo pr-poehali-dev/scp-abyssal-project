@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,15 +9,24 @@ const Donate = () => {
   const [steamId, setSteamId] = useState('');
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const { toast } = useToast();
 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   const donatePackages = [
-    { amount: 100, bonus: 0, label: '100 ₽' },
-    { amount: 250, bonus: 10, label: '250 ₽' },
-    { amount: 500, bonus: 50, label: '500 ₽' },
-    { amount: 1000, bonus: 150, label: '1000 ₽' },
-    { amount: 2500, bonus: 500, label: '2500 ₽' },
-    { amount: 5000, bonus: 1250, label: '5000 ₽' },
+    { amount: 100, bonus: 0, label: '100 ₽', popular: false },
+    { amount: 250, bonus: 0, label: '250 ₽', popular: false },
+    { amount: 500, bonus: 0, label: '500 ₽', popular: true },
+    { amount: 1000, bonus: 0, label: '1000 ₽', popular: false },
+    { amount: 2500, bonus: 0, label: '2500 ₽', popular: false },
+    { amount: 5000, bonus: 0, label: '5000 ₽', popular: false },
   ];
 
   const handleDonate = async (selectedAmount: number) => {
@@ -74,12 +83,24 @@ const Donate = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden bg-[#051510]">
+      <div 
+        className="fixed pointer-events-none z-0 rounded-full blur-3xl transition-opacity duration-300"
+        style={{
+          left: `${mousePos.x}px`,
+          top: `${mousePos.y}px`,
+          width: '400px',
+          height: '400px',
+          transform: 'translate(-50%, -50%)',
+          background: 'radial-gradient(circle, rgba(29, 185, 84, 0.2) 0%, transparent 70%)',
+        }}
+      ></div>
+
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#051510]/90 backdrop-blur-sm border-b border-primary/20">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img src="https://cdn.poehali.dev/files/4468007d-3ca2-4d75-af22-bd7b04f04385.png" alt="Abyssal" className="w-10 h-10" />
             <h1 className="text-xl font-bold tracking-wider">ABYSSAL</h1>
-          </div>
+          </a>
           <nav className="flex gap-8 text-sm">
             <a href="/" className="nav-link hover:text-primary transition-colors tracking-wide">
               Главная
@@ -92,102 +113,148 @@ const Donate = () => {
       </header>
 
       <main className="relative z-10 pt-32 pb-20">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold mb-4 tracking-wide">ПОПОЛНЕНИЕ БАЛАНСА</h1>
-            <p className="text-lg opacity-80">
-              Пополните донат-валюту для покупки привилегий и улучшений на сервере
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="text-center mb-16 animate-fade-in">
+            <h1 className="text-6xl font-bold mb-6 tracking-wide">
+              ПОПОЛНЕНИЕ <span className="text-primary">БАЛАНСА</span>
+            </h1>
+            <p className="text-xl opacity-80 max-w-2xl mx-auto">
+              Поддержите развитие проекта и получите донат-валюту для улучшения игрового опыта
             </p>
+            <div className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-primary/10 border border-primary/30 rounded-full">
+              <Icon name="TrendingUp" size={20} className="text-primary" />
+              <span className="text-sm font-bold">Курс: 1₽ = 1 донат-валюта</span>
+            </div>
           </div>
 
-          <Card className="p-8 bg-card/50 backdrop-blur-sm border border-primary/20 mb-12">
-            <div className="mb-8">
-              <label className="block text-sm font-bold mb-3 tracking-wide">
-                <Icon name="User" size={16} className="inline mr-2" />
-                STEAM ID
-              </label>
-              <Input
-                type="text"
-                placeholder="STEAM_0:1:12345678"
-                value={steamId}
-                onChange={(e) => setSteamId(e.target.value)}
-                className="bg-background/50 border-primary/30 focus:border-primary text-white"
-              />
-              <p className="text-xs opacity-60 mt-2">
-                Найти свой Steam ID можно на{' '}
-                <a href="https://steamid.io/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  steamid.io
-                </a>
-              </p>
-            </div>
-
-            <div className="mb-8">
-              <h3 className="text-xl font-bold mb-6 tracking-wide">ГОТОВЫЕ ПАКЕТЫ</h3>
-              <div className="grid md:grid-cols-3 gap-4">
-                {donatePackages.map((pkg) => (
-                  <Card
-                    key={pkg.amount}
-                    className="p-6 bg-background/30 border-primary/20 hover:border-primary transition-all cursor-pointer hover:scale-105"
-                    onClick={() => handleDonate(pkg.amount)}
-                  >
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-primary mb-2">{pkg.label}</div>
-                      <div className="text-sm opacity-80">
-                        + {pkg.amount + pkg.bonus} донат-валюты
-                      </div>
-                      {pkg.bonus > 0 && (
-                        <div className="text-xs text-primary mt-2">
-                          Бонус: +{pkg.bonus}
-                        </div>
-                      )}
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            <div className="border-t border-primary/20 pt-8">
-              <h3 className="text-xl font-bold mb-4 tracking-wide">СВОЯ СУММА</h3>
-              <div className="flex gap-4">
+          <div className="max-w-2xl mx-auto mb-16 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <Card className="p-8 bg-card/50 backdrop-blur-sm border-2 border-primary/30 hover:border-primary transition-all duration-500 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+              <div className="relative">
+                <label className="block text-lg font-bold mb-4 tracking-wide flex items-center gap-2">
+                  <Icon name="User" size={20} className="text-primary" />
+                  ВАШ STEAM ID
+                </label>
                 <Input
-                  type="number"
-                  placeholder="Введите сумму (мин. 100 ₽)"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  className="bg-background/50 border-primary/30 focus:border-primary text-white"
-                  min="100"
+                  type="text"
+                  placeholder="STEAM_0:1:12345678"
+                  value={steamId}
+                  onChange={(e) => setSteamId(e.target.value)}
+                  className="bg-background/70 border-2 border-primary/30 focus:border-primary text-white text-lg h-14 transition-all duration-300"
                 />
+                <p className="text-xs opacity-60 mt-3 flex items-center gap-2">
+                  <Icon name="Info" size={14} />
+                  Найти свой Steam ID:{' '}
+                  <a href="https://steamid.io/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">
+                    steamid.io
+                  </a>
+                </p>
+              </div>
+            </Card>
+          </div>
+
+          <div className="mb-16 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold tracking-wide mb-2">ВЫБЕРИТЕ СУММУ</h2>
+              <p className="text-sm opacity-70">Выберите готовый пакет или введите свою сумму ниже</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {donatePackages.map((pkg, index) => (
+                <Card
+                  key={pkg.amount}
+                  className={`relative p-8 backdrop-blur-sm border-2 cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20 animate-fade-in group ${
+                    pkg.popular
+                      ? 'bg-primary/10 border-primary hover:bg-primary/20'
+                      : 'bg-card/30 border-primary/20 hover:border-primary hover:bg-card/50'
+                  }`}
+                  style={{ animationDelay: `${0.3 + index * 0.05}s` }}
+                  onClick={() => handleDonate(pkg.amount)}
+                >
+                  {pkg.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-black text-xs font-bold rounded-full">
+                      ПОПУЛЯРНОЕ
+                    </div>
+                  )}
+                  <div className="text-center relative">
+                    <div className="absolute inset-0 bg-primary/5 rounded-lg blur-xl group-hover:bg-primary/10 transition-all duration-500"></div>
+                    <div className="relative">
+                      <div className="text-5xl font-bold text-primary mb-3">{pkg.amount}</div>
+                      <div className="text-2xl font-bold mb-2">₽</div>
+                      <div className="h-px bg-primary/30 my-4 mx-auto w-16"></div>
+                      <div className="text-lg opacity-90 mb-1">Получите</div>
+                      <div className="text-3xl font-bold text-primary">{pkg.amount}</div>
+                      <div className="text-sm opacity-70 mt-1">донат-валюты</div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div className="max-w-3xl mx-auto mb-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+            <Card className="p-8 bg-card/50 backdrop-blur-sm border-2 border-primary/20 hover:border-primary transition-all duration-500">
+              <h3 className="text-2xl font-bold mb-6 tracking-wide text-center">СВОЯ СУММА</h3>
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <Input
+                    type="number"
+                    placeholder="Введите сумму (мин. 100 ₽)"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="bg-background/70 border-2 border-primary/30 focus:border-primary text-white text-lg h-14 transition-all duration-300"
+                    min="100"
+                  />
+                </div>
                 <Button
                   onClick={handleCustomDonate}
                   disabled={loading}
-                  className="bg-primary text-black hover:bg-primary/90 font-bold px-8"
+                  className="bg-primary text-black hover:bg-primary/90 font-bold px-12 h-14 text-lg transition-all duration-300 hover:scale-105"
                 >
-                  {loading ? 'Загрузка...' : 'Пополнить'}
+                  {loading ? (
+                    <span className="flex items-center gap-2">
+                      <Icon name="Loader2" size={20} className="animate-spin" />
+                      Загрузка...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <Icon name="CreditCard" size={20} />
+                      Пополнить
+                    </span>
+                  )}
                 </Button>
               </div>
-            </div>
-          </Card>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-6 bg-card/30 border border-primary/20 text-center">
-              <Icon name="Shield" size={40} className="text-primary mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Безопасно</h3>
-              <p className="text-sm opacity-80">Оплата через Т-Банк</p>
-            </Card>
-            <Card className="p-6 bg-card/30 border border-primary/20 text-center">
-              <Icon name="Zap" size={40} className="text-primary mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Мгновенно</h3>
-              <p className="text-sm opacity-80">Зачисление за 1-5 минут</p>
-            </Card>
-            <Card className="p-6 bg-card/30 border border-primary/20 text-center">
-              <Icon name="Gift" size={40} className="text-primary mx-auto mb-4" />
-              <h3 className="font-bold mb-2">Бонусы</h3>
-              <p className="text-sm opacity-80">Дополнительная валюта</p>
             </Card>
           </div>
 
-          <div className="mt-12 text-center text-sm opacity-60">
-            <p>
+          <div className="grid md:grid-cols-3 gap-6 mb-12 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+            <Card className="p-8 bg-card/30 border-2 border-primary/20 text-center hover:border-primary transition-all duration-500 hover:scale-105 group">
+              <div className="relative inline-block mb-4">
+                <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl group-hover:bg-primary/30 transition-all duration-500"></div>
+                <Icon name="Shield" size={48} className="text-primary relative" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Безопасно</h3>
+              <p className="text-sm opacity-80">Оплата через Т-Банк с защитой данных</p>
+            </Card>
+            <Card className="p-8 bg-card/30 border-2 border-primary/20 text-center hover:border-primary transition-all duration-500 hover:scale-105 group">
+              <div className="relative inline-block mb-4">
+                <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl group-hover:bg-primary/30 transition-all duration-500"></div>
+                <Icon name="Zap" size={48} className="text-primary relative" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Мгновенно</h3>
+              <p className="text-sm opacity-80">Зачисление в течение 1-5 минут</p>
+            </Card>
+            <Card className="p-8 bg-card/30 border-2 border-primary/20 text-center hover:border-primary transition-all duration-500 hover:scale-105 group">
+              <div className="relative inline-block mb-4">
+                <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl group-hover:bg-primary/30 transition-all duration-500"></div>
+                <Icon name="HeadphonesIcon" size={48} className="text-primary relative" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Поддержка</h3>
+              <p className="text-sm opacity-80">Помощь 24/7 в Discord</p>
+            </Card>
+          </div>
+
+          <div className="text-center text-sm opacity-60 animate-fade-in" style={{ animationDelay: '0.7s' }}>
+            <p className="mb-2">
               Совершая платёж, вы соглашаетесь с{' '}
               <a href="/terms" className="text-primary hover:underline">
                 договором оферты
@@ -197,6 +264,7 @@ const Donate = () => {
                 политикой конфиденциальности
               </a>
             </p>
+            <p className="text-xs">ИП Киселев Николай Александрович | ИНН 784105099308 | ОГРНИП 324784700201111</p>
           </div>
         </div>
       </main>

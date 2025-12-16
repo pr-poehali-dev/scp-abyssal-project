@@ -156,8 +156,11 @@ const Index = () => {
             </a>
           </nav>
           <div className="flex gap-4">
-            <Button className="bg-primary/10 text-primary border-2 border-primary hover:bg-primary hover:text-black transition-all duration-300 px-6">
-              Подключиться
+            <Button 
+              className="bg-primary/10 text-primary border-2 border-primary hover:bg-primary hover:text-black transition-all duration-300 px-6"
+              onClick={() => window.location.href = '/donate'}
+            >
+              Донат
             </Button>
           </div>
         </div>
@@ -403,8 +406,21 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               <Card className="p-8 bg-card/50 backdrop-blur-sm border border-primary/20 hover:border-primary transition-all duration-500 hover:bg-card/70 hover:scale-105 animate-fade-in text-center cursor-pointer">
+                <Icon name="Gamepad2" size={48} className="text-primary mx-auto mb-4 transition-all duration-500" />
+                <h4 className="text-2xl font-bold mb-4">Подключиться</h4>
+                <p className="text-sm opacity-80 mb-6">
+                  Зайдите на сервер и начните играть
+                </p>
+                <Button 
+                  className="bg-primary/10 text-primary border-2 border-primary hover:bg-primary hover:text-black transition-all duration-300"
+                >
+                  Играть сейчас
+                </Button>
+              </Card>
+
+              <Card className="p-8 bg-card/50 backdrop-blur-sm border border-primary/20 hover:border-primary transition-all duration-500 hover:bg-card/70 hover:scale-105 animate-fade-in text-center cursor-pointer" style={{ animationDelay: '0.1s' }}>
                 <Icon name="FileText" size={48} className="text-primary mx-auto mb-4 transition-all duration-500" />
                 <h4 className="text-2xl font-bold mb-4">Правила сервера</h4>
                 <p className="text-sm opacity-80 mb-6">
