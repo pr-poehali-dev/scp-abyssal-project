@@ -24,37 +24,37 @@ const Donate = () => {
     { 
       amount: 100, 
       label: '100 ₽', 
-      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/70968dcb-9ca0-4931-bcd5-2fde67269c99.jpg',
+      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/05a55847-7b54-4ba4-9004-47d906aaf954.jpg',
       size: 'small'
     },
     { 
       amount: 250, 
       label: '250 ₽', 
-      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/70968dcb-9ca0-4931-bcd5-2fde67269c99.jpg',
+      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/05a55847-7b54-4ba4-9004-47d906aaf954.jpg',
       size: 'small'
     },
     { 
       amount: 500, 
       label: '500 ₽', 
-      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/073655ff-3f9e-471c-9f1a-f81596ed0c5b.jpg',
+      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/38484ec4-0040-42e3-84b8-469ec6a13cb7.jpg',
       size: 'medium'
     },
     { 
       amount: 1000, 
       label: '1000 ₽', 
-      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/073655ff-3f9e-471c-9f1a-f81596ed0c5b.jpg',
+      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/38484ec4-0040-42e3-84b8-469ec6a13cb7.jpg',
       size: 'medium'
     },
     { 
       amount: 2500, 
       label: '2500 ₽', 
-      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/f803fdae-3f6d-438c-b996-77ee8b3ffede.jpg',
+      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/96c2d023-4a97-4c92-9ec8-5c7fefef08a5.jpg',
       size: 'large'
     },
     { 
       amount: 5000, 
       label: '5000 ₽', 
-      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/f803fdae-3f6d-438c-b996-77ee8b3ffede.jpg',
+      image: 'https://cdn.poehali.dev/projects/43373741-381d-4f2d-884e-64c504f73daa/files/96c2d023-4a97-4c92-9ec8-5c7fefef08a5.jpg',
       size: 'large'
     },
   ];
