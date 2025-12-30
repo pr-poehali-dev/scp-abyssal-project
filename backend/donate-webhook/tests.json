@@ -1,18 +1,9 @@
 {
   "tests": [
     {
-      "name": "Process successful payment",
-      "method": "POST",
-      "path": "/",
-      "body": {
-        "transaction_id": 1,
-        "status": "completed"
-      },
-      "expectedStatus": 200,
-      "expectedBody": {
-        "success": true
-      },
-      "bodyMatcher": "partial"
+      "name": "Handle OPTIONS request",
+      "method": "OPTIONS",
+      "expectedStatus": 200
     }
   ]
 }

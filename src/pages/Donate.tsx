@@ -44,7 +44,7 @@ const Donate = () => {
 
     setLoading(true);
     try {
-      const response = await fetch('https://functions.poehali.dev/82e4a93c-2575-4ee2-8cc3-dbdc6931e07f', {
+      const response = await fetch('https://functions.poehali.dev/d3c72282-abcb-467d-bd45-f2c3c1860323', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -54,6 +54,15 @@ const Donate = () => {
       });
 
       const data = await response.json();
+      
+      if (!response.ok) {
+        toast({
+          title: 'Ошибка',
+          description: data.error || 'Не удалось создать платёж',
+          variant: 'destructive',
+        });
+        return;
+      }
       
       if (data.payment_url) {
         window.location.href = data.payment_url;
